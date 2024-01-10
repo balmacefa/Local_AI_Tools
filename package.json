@@ -1,0 +1,26 @@
+{
+  "name": "SIAJ",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pnpm --filter siaj run start",
+    "dev": "pnpm --filter siaj run dev",
+    "dev:lib": "cd packages/fbr_function_tool_kit && pnpm dev",
+    "siaj": "pnpm --filter siaj"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "private": true,
+  "workspaces": [
+    "packages/fbr_function_tool_kit",
+    "packages/*"
+  ],
+  "pnpm": {
+    "patchedDependencies": {
+      "langchain@0.0.209": "patches/langchain@0.0.209.patch",
+      "type-fest@4.9.0": "patches/type-fest@4.9.0.patch"
+    }
+  }
+}
