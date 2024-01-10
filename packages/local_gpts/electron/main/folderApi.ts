@@ -1,15 +1,20 @@
 // electron/main/folderApi.ts
-
-import { PromiseResolve } from '@balmacefa/function_tool_kit';
-import { Err, Ok } from 'ts-results';
+import type { IpcMain } from 'electron';
+import ts_results from 'ts-results';
 import { Folder, initDb } from './database';
 import { Electron_Error } from './types';
 
+const { Err, Ok } = ts_results;
+export type PromiseResolve<R, E> = Promise<ts_results.Result<R, E>>;
+
 export const getFolders = async (): Promise<Folder[]> => {
+    console.log('getFolders --------------------')
     const db = await initDb();
     const folders = await db.all<Folder[]>('SELECT * FROM folders');
     return folders;
 };
+
+export type Type_getFolders = typeof getFolders;
 
 export const addFolder = async (folder: Omit<Folder, 'id'>): PromiseResolve<number, Electron_Error> => {
     const db = await initDb();
@@ -44,3 +49,27 @@ export const getFolderDetails = async (id: number): PromiseResolve<Folder, Elect
     }
     return Err(new Electron_Error('Failed to get folder', { id }));
 };
+
+
+
+export const Setup_ipc_main = (ipcMain: IpcMain) => {
+
+    // Set up IPC handlers for folder operations
+    ipcMain.handle('get-folders', async () => {
+        return await getFolders();
+    });
+
+    ipcMain.handle('add-folder', async (event, folder) => {
+        return await addFolder(folder);
+    });
+
+    ipcMain.handle('remove-folder', async (event, id) => {
+        return await removeFolder(id);
+    });
+
+    ipcMain.handle('get-folder-details', async (event, id) => {
+        return await getFolderDetails(id);
+    });
+
+
+}

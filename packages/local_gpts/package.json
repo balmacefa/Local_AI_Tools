@@ -20,7 +20,6 @@
     "e2e": "playwright test"
   },
   "dependencies": {
-    "@balmacefa/function_tool_kit": "workspace:^",
     "electron-updater": "^6.1.1",
     "react-router-dom": "^6.21.1",
     "sqlite": "^5.1.1",

@@ -1,6 +1,6 @@
 // components/FolderManagement/FolderList.js
 
-import { Folder } from "./API";
+import { Folder } from "../types";
 
 interface FolderListProps {
   folders: Folder[];

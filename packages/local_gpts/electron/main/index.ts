@@ -1,12 +1,14 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { BrowserWindow, app, ipcMain, shell } from 'electron'
 import { release } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { addFolder, getFolderDetails, getFolders, removeFolder } from './folderApi'
 import { update } from './update'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+export const directory_name = __dirname;
 // The built directory structure
 //
 // ├─┬ dist-electron
@@ -123,4 +125,21 @@ ipcMain.handle('open-win', (_, arg) => {
     childWindow.loadFile(indexHtml, { hash: arg })
   }
 })
+
+// Set up IPC handlers for folder operations
+ipcMain.handle('get-folders', async () => {
+  return await getFolders();
+});
+
+ipcMain.handle('add-folder', async (event, folder) => {
+  return await addFolder(folder);
+});
+
+ipcMain.handle('remove-folder', async (event, id) => {
+  return await removeFolder(id);
+});
+
+ipcMain.handle('get-folder-details', async (event, id) => {
+  return await getFolderDetails(id);
+});
 

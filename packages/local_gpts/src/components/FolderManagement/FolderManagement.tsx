@@ -1,7 +1,7 @@
 // components/FolderManagement/FolderManagement.js
 
 import React, { useEffect, useState } from "react";
-import { Folder, getFolderDetails, getFolders, removeFolder } from "./API";
+import { Folder } from "../types";
 import FolderDetails from "./FolderDetails";
 import FolderList from "./FolderList";
 
@@ -10,12 +10,19 @@ const FolderManagement: React.FC = () => {
   const [folderDetails, setFolderDetails] = useState<Folder | null>(null);
 
   useEffect(() => {
-    getFolders().then(setFolders);
+    window.electronAPI
+      .getFolders()
+      .then((fetchedFolders: React.SetStateAction<Folder[]>) => {
+        setFolders(fetchedFolders);
+      })
+      .catch((err: any) => console.error("Failed to fetch folders:", err));
   }, []);
 
   const handleFolderSelect = async (folderName: string) => {
     console.log(folderName);
-    const folder_details = await getFolderDetails(folderName);
+    const folder_details: Folder = await window.electronAPI.getFolderDetails(
+      folderName
+    );
     setFolderDetails(folder_details);
   };
   const handleAddFolder = async () => {
@@ -23,9 +30,15 @@ const FolderManagement: React.FC = () => {
   };
   const handleRemoveFolder = async (folderName: string) => {
     // TODO remove folder and them save to sqlite
-    const folder_details = await removeFolder(folderName);
-    setFolders(folder_details);
+    await window.electronAPI.removeFolder(folderName);
     setFolderDetails(null);
+    // reload
+    window.electronAPI
+      .getFolders()
+      .then((fetchedFolders: React.SetStateAction<Folder[]>) => {
+        setFolders(fetchedFolders);
+      })
+      .catch((err: any) => console.error("Failed to fetch folders:", err));
   };
 
   return (

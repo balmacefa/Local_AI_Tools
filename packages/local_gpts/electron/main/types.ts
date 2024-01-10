@@ -1,4 +1,4 @@
-import { BaseProjectError } from "@balmacefa/function_tool_kit";
+import { BaseProjectError } from '../../../fbr_function_tool_kit/src/ErrorManager/ProjectError';
 
 export class Electron_Error extends BaseProjectError {
     constructor(message: string, public data: any = {}) {

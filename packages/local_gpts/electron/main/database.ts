@@ -3,6 +3,7 @@
 import path from 'path';
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
+import { directory_name } from '.';
 
 // Type for our Folder schema
 export interface Folder {
@@ -16,7 +17,7 @@ export interface Folder {
 // Opening the SQLite database
 const openDb = async () => {
     return open({
-        filename: path.join(__dirname, 'folderManagement.db'),
+        filename: path.join(directory_name, 'folderManagement.db'),
         driver: sqlite3.Database,
     });
 };
