@@ -19,8 +19,7 @@
   ],
   "pnpm": {
     "patchedDependencies": {
-      "langchain@0.0.209": "patches/langchain@0.0.209.patch",
-      "type-fest@4.9.0": "patches/type-fest@4.9.0.patch"
+      "langchain@0.0.209": "patches/langchain@0.0.209.patch"
     }
   }
 }
