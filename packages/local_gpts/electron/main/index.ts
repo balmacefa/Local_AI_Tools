@@ -1,8 +1,8 @@
-import { BrowserWindow, app, ipcMain, shell } from 'electron'
+import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron'
 import { release } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { addFolder, getFolderDetails, getFolders, removeFolder } from './folderApi'
+import { Setup_ipc_main } from './folderApi'
 import { update } from './update'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -126,20 +126,26 @@ ipcMain.handle('open-win', (_, arg) => {
   }
 })
 
-// Set up IPC handlers for folder operations
-ipcMain.handle('get-folders', async () => {
-  return await getFolders();
-});
 
-ipcMain.handle('add-folder', async (event, folder) => {
-  return await addFolder(folder);
-});
+Setup_ipc_main(ipcMain);
 
-ipcMain.handle('remove-folder', async (event, id) => {
-  return await removeFolder(id);
-});
 
-ipcMain.handle('get-folder-details', async (event, id) => {
-  return await getFolderDetails(id);
-});
+// In your main process file (e.g., index.ts)
 
+ipcMain.handle('select-folder', async () => {
+  const window = BrowserWindow.getFocusedWindow();
+
+  if (!window) {
+    return null;
+  }
+
+  const result = await dialog.showOpenDialog(window, {
+    properties: ['openDirectory']
+  });
+
+  if (result.canceled) {
+    return null;
+  } else {
+    return result.filePaths[0]; // return the selected directory path
+  }
+});

@@ -5,6 +5,7 @@ interface ElectronAPI {
   addFolder: (folder: any) => Promise<any>;
   removeFolder: (id: string) => Promise<void>;
   getFolderDetails: (id: string) => Promise<any>;
+  selectFolder: () => Promise<any>;
 }
 
 

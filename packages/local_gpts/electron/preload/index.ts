@@ -4,6 +4,7 @@ import { contextBridge, ipcRenderer } from 'electron';
 contextBridge.exposeInMainWorld('ipcRenderer', withPrototype(ipcRenderer));
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  selectFolder: () => ipcRenderer.invoke('select-folder'),
   getFolders: () => ipcRenderer.invoke('get-folders'),
   addFolder: (folder: any) => ipcRenderer.invoke('add-folder', folder),
   removeFolder: (id: any) => ipcRenderer.invoke('remove-folder', id),

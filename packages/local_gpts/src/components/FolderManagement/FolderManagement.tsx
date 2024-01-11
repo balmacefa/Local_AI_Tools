@@ -25,11 +25,34 @@ const FolderManagement: React.FC = () => {
     );
     setFolderDetails(folder_details);
   };
+
   const handleAddFolder = async () => {
-    // TODO show electro select folder and them save to sqlite
+    try {
+      const selectedFolderPath = await window.electronAPI.selectFolder();
+
+      if (selectedFolderPath) {
+        // Assuming you have a method to add a folder to your database
+        // For example, something like this:
+        const pathParts = selectedFolderPath.path.split(/[/\\]/); // Split on both forward and backward slashes
+        const folderName = pathParts[pathParts.length - 1];
+
+        await window.electronAPI.addFolder({
+          name: folderName, // You might want to extract the name from the path
+          fullPath: selectedFolderPath,
+          directoryTree: {}, // Populate this based on your requirements
+          gitDetails: {}, // Populate this based on your requirements
+        });
+
+        // Refresh the folder list after adding the new folder
+        const updatedFolders = await window.electronAPI.getFolders();
+        setFolders(updatedFolders);
+      }
+    } catch (err) {
+      console.error("Failed to add folder:", err);
+    }
   };
+
   const handleRemoveFolder = async (folderName: string) => {
-    // TODO remove folder and them save to sqlite
     await window.electronAPI.removeFolder(folderName);
     setFolderDetails(null);
     // reload
