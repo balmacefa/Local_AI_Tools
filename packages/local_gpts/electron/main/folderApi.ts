@@ -1,53 +1,51 @@
-// electron/main/folderApi.ts
-import type { IpcMain } from 'electron';
-import ts_results from 'ts-results';
-import { Folder, initDb } from './database';
-import { Electron_Error } from './types';
+import { IpcMain } from "electron";
+import { JsonFileManager } from "./JSON_Data";
 
-const { Err, Ok } = ts_results;
-export type PromiseResolve<R, E> = Promise<ts_results.Result<R, E>>;
+function generateId() {
+    const hrTime = process.hrtime();
+    const rid = Buffer.from(hrTime).toString('base64');
+    return rid;
+}
+
+export interface Folder {
+    id?: string; // auto-generated
+    fullPath: string;
+    directoryTree: string; // JSON string
+    gitDetails: string; // JSON string
+}
+
+
+// types/folderTypes.ts
+const FOLDERS_KEY = "assets/configs/folders.json";
+
+const Json_File_Manager = new JsonFileManager(FOLDERS_KEY);
+
 
 export const getFolders = async (): Promise<Folder[]> => {
-    console.log('getFolders --------------------')
-    const db = await initDb();
-    const folders = await db.all<Folder[]>('SELECT * FROM folders');
+    return await Json_File_Manager.readJsonFile() as Folder[];
+};
+
+export const getFolderDetails = async (id: string): Promise<Folder> => {
+    const folder = (await getFolders()).find((f) => f.id === id);
+    return folder as Folder;
+};
+
+export const addFolder = async (newFolder: Folder): Promise<Folder[]> => {
+    newFolder.id = generateId();
+    let folders = (await getFolders());
+    folders = [...folders, newFolder];
+
+    await Json_File_Manager.writeJsonFile(folders);
     return folders;
 };
 
-export type Type_getFolders = typeof getFolders;
-
-export const addFolder = async (folder: Omit<Folder, 'id'>): PromiseResolve<number, Electron_Error> => {
-    const db = await initDb();
-    const result = await db.run(
-        'INSERT INTO folders (name, fullPath, directoryTree, gitDetails) VALUES (?, ?, ?, ?)',
-        [folder.name, folder.fullPath, JSON.stringify(folder.directoryTree), JSON.stringify(folder.gitDetails)]
+export const removeFolder = async (id: string): Promise<Folder[]> => {
+    let folders = (await getFolders());
+    folders = folders.filter(
+        (folder) => folder.id !== id
     );
-    if (typeof result.lastID === 'number') {
-        return Ok(result.lastID);
-    }
-    return Err(new Electron_Error('Failed to add folder', { folder }));
-};
-
-export const removeFolder = async (id: number): PromiseResolve<boolean, Electron_Error> => {
-
-    try {
-        const db = await initDb();
-        await db.run('DELETE FROM folders WHERE id = ?', id);
-        return Ok(true);
-    } catch (error) {
-        const errorMessage = `${error}`;
-        return Err(new Electron_Error(errorMessage, { error }));
-    }
-
-};
-
-export const getFolderDetails = async (id: number): PromiseResolve<Folder, Electron_Error> => {
-    const db = await initDb();
-    const folder = await db.get<Folder>('SELECT * FROM folders WHERE id = ?', id);
-    if (folder) {
-        return Ok(folder);
-    }
-    return Err(new Electron_Error('Failed to get folder', { id }));
+    await Json_File_Manager.writeJsonFile(folders);
+    return folders;
 };
 
 
@@ -70,6 +68,4 @@ export const Setup_ipc_main = (ipcMain: IpcMain) => {
     ipcMain.handle('get-folder-details', async (event, id) => {
         return await getFolderDetails(id);
     });
-
-
 }

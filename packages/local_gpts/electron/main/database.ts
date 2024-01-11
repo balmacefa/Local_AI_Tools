@@ -6,13 +6,6 @@ import sqlite3 from 'sqlite3';
 import { directory_name } from '.';
 
 // Type for our Folder schema
-export interface Folder {
-    id?: number; // auto-generated
-    name: string;
-    fullPath: string;
-    directoryTree: string; // JSON string
-    gitDetails: string; // JSON string
-}
 
 // Opening the SQLite database
 const openDb = async () => {

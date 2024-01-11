@@ -11,7 +11,7 @@ export interface GitDetails {
 }
 
 export interface Folder {
-    name: string;
+    id: string;
     fullPath: string;
     directoryTree: DirectoryTree;
     gitDetails: GitDetails;

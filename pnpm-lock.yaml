@@ -274,6 +274,9 @@ importers:
 
   packages/local_gpts:
     dependencies:
+      electron-json-storage:
+        specifier: ^4.6.0
+        version: 4.6.0
       electron-updater:
         specifier: ^6.1.1
         version: 6.1.7
@@ -293,6 +296,9 @@ importers:
       '@playwright/test':
         specifier: ^1.37.1
         version: 1.40.1
+      '@types/electron-json-storage':
+        specifier: ^4.5.4
+        version: 4.5.4
       '@types/react':
         specifier: ^18.2.20
         version: 18.2.47
@@ -2966,6 +2972,10 @@ packages:
     resolution: {integrity: sha512-nv+GSx77ZtXiJzwKdsASqi+YQ5Z7vwHsTP0JY2SiQgjGckkBRKZnk8nIM+7oUZ1VCtuTz0+By4qVR7fqzp/Dfg==}
     dev: true
 
+  /@types/electron-json-storage@4.5.4:
+    resolution: {integrity: sha512-M0ZzFYFOFejheqF900ux/CyzKC6Gex28rfeg22+MKxR9E82wU37bWrgboe8KHD63igpORmVjjmsZo6qDfkxdQQ==}
+    dev: true
+
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
     dev: true
@@ -5549,6 +5559,17 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /electron-json-storage@4.6.0:
+    resolution: {integrity: sha512-gAgNsnA7tEtV9LzzOnZTyVIb3cQtCva+bEBVT5pbRGU8ZSZTVKPBrTxIAYjeVfdSjyNXgfb1mr/CZrOJgeHyqg==}
+    dependencies:
+      async: 2.6.4
+      lockfile: 1.0.4
+      lodash: 4.17.21
+      mkdirp: 0.5.6
+      rimraf: 2.7.1
+      write-file-atomic: 2.4.3
+    dev: false
 
   /electron-publish@24.8.1:
     resolution: {integrity: sha512-IFNXkdxMVzUdweoLJNXSupXkqnvgbrn3J4vognuOY06LaS/m0xvfFYIf+o1CM8if6DuWYWoQFKPcWZt/FUjZPw==}
@@ -8848,6 +8869,12 @@ packages:
     dependencies:
       p-locate: 5.0.0
     dev: true
+
+  /lockfile@1.0.4:
+    resolution: {integrity: sha512-cvbTwETRfsFh4nHsL1eGWapU1XFi5Ot9E85sWAwia7Y7EgB7vfqcZhTKZ+l7hCGxSPoushMv5GKhT5PdLv03WA==}
+    dependencies:
+      signal-exit: 3.0.7
+    dev: false
 
   /lodash._getnative@3.9.1:
     resolution: {integrity: sha512-RrL9VxMEPyDMHOd9uFbvMe8X55X16/cGM5IgOKgRElQZutpX89iS6vwl64duTV1/16w5JY7tuFNXqoekmh1EmA==}
@@ -13427,6 +13454,14 @@ packages:
 
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
+
+  /write-file-atomic@2.4.3:
+    resolution: {integrity: sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==}
+    dependencies:
+      graceful-fs: 4.2.11
+      imurmurhash: 0.1.4
+      signal-exit: 3.0.7
+    dev: false
 
   /write-file-atomic@4.0.2:
     resolution: {integrity: sha512-7KxauUdBmSdWnmpaGFg+ppNjKF8uNLry8LyzjauQDOVONfFLNKrKvQOxZ/VuTIcS/gge/YNahf5RIIQWTSarlg==}

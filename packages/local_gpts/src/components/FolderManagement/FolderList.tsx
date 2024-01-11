@@ -4,7 +4,7 @@ import { Folder } from "../types";
 
 interface FolderListProps {
   folders: Folder[];
-  onSelectFolder: (folderName: string) => void;
+  onSelectFolder: (fullPath: string) => void;
   onAddFolder: () => void; // New prop for adding a folder
 }
 
@@ -28,10 +28,11 @@ const FolderList: React.FC<FolderListProps> = ({
           <li
             key={index}
             className="cursor-pointer"
-            onClick={() => onSelectFolder(folder.name)}
+            onClick={() => onSelectFolder(folder.id)}
           >
-            <p>{folder.name}</p>
-            <p className="text-sm">{folder.fullPath}</p>
+            <p className="text-sm">
+              {index + 1}- {folder.fullPath}
+            </p>
           </li>
         ))}
       </ul>

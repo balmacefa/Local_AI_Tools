@@ -33,11 +33,8 @@ const FolderManagement: React.FC = () => {
       if (selectedFolderPath) {
         // Assuming you have a method to add a folder to your database
         // For example, something like this:
-        const pathParts = selectedFolderPath.path.split(/[/\\]/); // Split on both forward and backward slashes
-        const folderName = pathParts[pathParts.length - 1];
 
         await window.electronAPI.addFolder({
-          name: folderName, // You might want to extract the name from the path
           fullPath: selectedFolderPath,
           directoryTree: {}, // Populate this based on your requirements
           gitDetails: {}, // Populate this based on your requirements
@@ -52,16 +49,11 @@ const FolderManagement: React.FC = () => {
     }
   };
 
-  const handleRemoveFolder = async (folderName: string) => {
-    await window.electronAPI.removeFolder(folderName);
+  const handleRemoveFolder = async (id: string) => {
+    const fetchedFolders: Folder[] = await window.electronAPI.removeFolder(id);
     setFolderDetails(null);
     // reload
-    window.electronAPI
-      .getFolders()
-      .then((fetchedFolders: React.SetStateAction<Folder[]>) => {
-        setFolders(fetchedFolders);
-      })
-      .catch((err: any) => console.error("Failed to fetch folders:", err));
+    setFolders(fetchedFolders);
   };
 
   return (

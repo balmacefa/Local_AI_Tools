@@ -1,10 +1,7 @@
-// types/folderTypes.ts
-
 import { Folder } from "../types";
 
 let dummyFolders: Folder[] = [
   {
-    name: "Project Alpha",
     fullPath: "/user/projects/project-alpha",
     directoryTree: {
       name: "project-alpha",

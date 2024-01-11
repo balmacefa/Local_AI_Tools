@@ -1,9 +1,9 @@
-import { Folder } from "./API";
+import { Folder } from "../types";
 
 // components/FolderManagement/FolderDetails.js
 interface FolderDetailsProps {
   folder: Folder;
-  onRemoveFolder: (folderName: string) => void;
+  onRemoveFolder: (fullPath: string) => void;
 }
 
 const FolderDetails: React.FC<FolderDetailsProps> = ({
@@ -13,17 +13,13 @@ const FolderDetails: React.FC<FolderDetailsProps> = ({
   return (
     <div className="w-full p-4 flex flex-col space-y-6">
       <div>
-        <h3 className="font-bold ">Folder Details:</h3>
-        <p className="">{folder.name}</p>
-      </div>
-      <div>
         <h3 className="font-bold ">Folder Path:</h3>
         <p className="">{folder.fullPath}</p>
       </div>
 
       <button
         className="p-1 bg-red-500 text-white rounded max-w-48 h-12"
-        onClick={() => onRemoveFolder(folder.name)}
+        onClick={() => onRemoveFolder(folder.id)}
       >
         Remove
       </button>
