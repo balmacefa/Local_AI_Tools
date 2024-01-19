@@ -2,7 +2,7 @@ import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron'
 import { release } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { Setup_ipc_main } from './folderApi'
+import { Setup_ipc_main__folders } from './folderApi'
 import { update } from './update'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -127,12 +127,12 @@ ipcMain.handle('open-win', (_, arg) => {
 })
 
 
-Setup_ipc_main(ipcMain);
+Setup_ipc_main__folders(ipcMain);
 
 
 // In your main process file (e.g., index.ts)
 
-ipcMain.handle('select-folder', async () => {
+ipcMain.handle('selectFolder', async () => {
   const window = BrowserWindow.getFocusedWindow();
 
   if (!window) {
@@ -147,5 +147,27 @@ ipcMain.handle('select-folder', async () => {
     return null;
   } else {
     return result.filePaths[0]; // return the selected directory path
+  }
+});
+
+
+ipcMain.handle('selectTsConfig', async () => {
+  const window = BrowserWindow.getFocusedWindow();
+
+  if (!window) {
+    return null;
+  }
+
+  const result = await dialog.showOpenDialog(window, {
+    properties: ['openFile'], // Allow only files to be selected
+    filters: [
+      { name: 'JSON', extensions: ['json'] } // Filter to allow only .json files
+    ]
+  });
+
+  if (result.canceled) {
+    return null;
+  } else {
+    return result.filePaths[0]; // return the selected file path
   }
 });

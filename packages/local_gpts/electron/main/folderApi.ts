@@ -1,4 +1,5 @@
-import { IpcMain } from "electron";
+import { IpcMain } from 'electron';
+import { Folder } from 'electron/common_types';
 import { JsonFileManager } from "./JSON_Data";
 
 function generateId() {
@@ -6,14 +7,6 @@ function generateId() {
     const rid = Buffer.from(hrTime).toString('base64');
     return rid;
 }
-
-export interface Folder {
-    id?: string; // auto-generated
-    fullPath: string;
-    directoryTree: string; // JSON string
-    gitDetails: string; // JSON string
-}
-
 
 // types/folderTypes.ts
 const FOLDERS_KEY = "assets/configs/folders.json";
@@ -27,6 +20,11 @@ export const getFolders = async (): Promise<Folder[]> => {
 
 export const getFolderDetails = async (id: string): Promise<Folder> => {
     const folder = (await getFolders()).find((f) => f.id === id);
+
+
+    // get git data
+
+
     return folder as Folder;
 };
 
@@ -50,22 +48,25 @@ export const removeFolder = async (id: string): Promise<Folder[]> => {
 
 
 
-export const Setup_ipc_main = (ipcMain: IpcMain) => {
+export const Setup_ipc_main__folders = (ipcMain: IpcMain) => {
 
     // Set up IPC handlers for folder operations
-    ipcMain.handle('get-folders', async () => {
+    ipcMain.handle('getFolders', async () => {
         return await getFolders();
     });
 
-    ipcMain.handle('add-folder', async (event, folder) => {
+    ipcMain.handle('addFolder', async (event, folder) => {
         return await addFolder(folder);
     });
 
-    ipcMain.handle('remove-folder', async (event, id) => {
+    ipcMain.handle('removeFolder', async (event, id) => {
         return await removeFolder(id);
     });
 
-    ipcMain.handle('get-folder-details', async (event, id) => {
+    ipcMain.handle('getFolderDetails', async (event, id) => {
         return await getFolderDetails(id);
     });
 }
+
+// See vite-env.d.ts
+// See preload/index.ts

@@ -1,7 +1,7 @@
 // components/FolderManagement/FolderManagement.js
 
 import React, { useEffect, useState } from "react";
-import { Folder } from "../types";
+import { Folder } from "../../common_types";
 import FolderDetails from "./FolderDetails";
 import FolderList from "./FolderList";
 
@@ -70,7 +70,7 @@ const FolderManagement: React.FC = () => {
         <div className="flex flex-col md:flex-row flex-grow overflow-auto">
           {folderDetails && (
             <FolderDetails
-              folder={folderDetails}
+              _folder={folderDetails}
               onRemoveFolder={handleRemoveFolder}
             />
           )}

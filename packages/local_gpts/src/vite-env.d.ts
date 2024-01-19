@@ -6,6 +6,7 @@ interface ElectronAPI {
   removeFolder: (id: string) => Promise<any>;
   getFolderDetails: (id: string) => Promise<any>;
   selectFolder: () => Promise<any>;
+  selectTsConfig: () => Promise<any>;
 }
 
 

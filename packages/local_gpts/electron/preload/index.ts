@@ -4,12 +4,14 @@ import { contextBridge, ipcRenderer } from 'electron';
 contextBridge.exposeInMainWorld('ipcRenderer', withPrototype(ipcRenderer));
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  selectFolder: () => ipcRenderer.invoke('select-folder'),
-  getFolders: () => ipcRenderer.invoke('get-folders'),
-  addFolder: (folder: any) => ipcRenderer.invoke('add-folder', folder),
-  removeFolder: (id: any) => ipcRenderer.invoke('remove-folder', id),
-  getFolderDetails: (id: any) => ipcRenderer.invoke('get-folder-details', id),
+  selectFolder: () => ipcRenderer.invoke('selectFolder'),
+  selectTsConfig: () => ipcRenderer.invoke('selectTsConfig'),
+  getFolders: () => ipcRenderer.invoke('getFolders'),
+  addFolder: (folder: any) => ipcRenderer.invoke('addFolder', folder),
+  removeFolder: (id: any) => ipcRenderer.invoke('removeFolder', id),
+  getFolderDetails: (id: any) => ipcRenderer.invoke('getFolderDetails', id),
 });
+
 
 // `exposeInMainWorld` can't detect attributes and methods of `prototype`, manually patching it.
 function withPrototype(obj: Record<string, any>) {
