@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   selectTsConfig: () => ipcRenderer.invoke('selectTsConfig'),
   getFolders: () => ipcRenderer.invoke('getFolders'),
   addFolder: (folder: any) => ipcRenderer.invoke('addFolder', folder),
+  TS_Analyze_project: (folder: any) => ipcRenderer.invoke('TS_Analyze_project', folder),
   removeFolder: (id: any) => ipcRenderer.invoke('removeFolder', id),
   getFolderDetails: (id: any) => ipcRenderer.invoke('getFolderDetails', id),
   updateFolder: (id: string, folder: any) => ipcRenderer.invoke('updateFolder', id, folder),

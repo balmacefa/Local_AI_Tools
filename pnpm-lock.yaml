@@ -289,6 +289,9 @@ importers:
       sqlite3:
         specifier: ^5.1.7
         version: 5.1.7
+      ts-morph:
+        specifier: ^21.0.1
+        version: 21.0.1
       ts-results:
         specifier: ^3.3.0
         version: 3.3.0

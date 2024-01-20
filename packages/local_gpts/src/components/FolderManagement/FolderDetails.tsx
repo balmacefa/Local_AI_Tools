@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Folder } from "../../common_types";
+import { TS_AnalizerRenderResults } from "./TS_AnalizerRenderResults";
 
 // components/FolderManagement/FolderDetails.js
 interface FolderDetailsProps {
@@ -102,6 +103,13 @@ const FolderDetails: React.FC<FolderDetailsProps> = ({
             <p>Selected Config: {folder.pathTsConfig}</p>
           </div>
         )}
+
+        {folder.directoryType === "TypeScript" &&
+          folder.pathTsConfig.length > 0 && (
+            <>
+              <TS_AnalizerRenderResults folder={folder} />
+            </>
+          )}
       </div>
       {/* Other Folder details and information goes here */}
     </div>

@@ -97,6 +97,6 @@ export const Setup_ipc_main__folders = (ipcMain: IpcMain) => {
         return await updateFolder(id, updatedFolderData);
     });
 }
-
+// See main/index.ts
 // See vite-env.d.ts
 // See preload/index.ts

@@ -25,6 +25,7 @@
     "react-router-dom": "^6.21.1",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
+    "ts-morph": "^21.0.1",
     "ts-results": "^3.3.0"
   },
   "devDependencies": {

@@ -2,6 +2,7 @@ import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron'
 import { release } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { Setup_ipc_main__TS_Project_Analyzer } from './Analyzers/TS/ProjectAnalyzer'
 import { Setup_ipc_main__folders } from './folderApi'
 import { update } from './update'
 
@@ -128,6 +129,8 @@ ipcMain.handle('open-win', (_, arg) => {
 
 
 Setup_ipc_main__folders(ipcMain);
+
+Setup_ipc_main__TS_Project_Analyzer(ipcMain);
 
 
 // In your main process file (e.g., index.ts)

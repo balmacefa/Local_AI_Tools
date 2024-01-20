@@ -21,3 +21,17 @@ export interface BaseFolder {
 
 
 export type Folder = BaseFolder;
+
+
+
+export interface AnalysisResult {
+    filePath: string;
+    coverage: string;
+    documentedCount: number;
+    totalCount: number;
+}
+
+export interface ProjectAnalysis {
+    files: AnalysisResult[];
+    totalCoverage: string;
+}

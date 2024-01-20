@@ -3,6 +3,7 @@
 interface ElectronAPI {
   getFolders: () => Promise<any[]>;
   addFolder: (folder: any) => Promise<any>;
+  TS_Analyze_project: (folder: any) => Promise<any>;
   removeFolder: (id: string) => Promise<any>;
   getFolderDetails: (id: string) => Promise<any>;
   selectFolder: () => Promise<any>;
