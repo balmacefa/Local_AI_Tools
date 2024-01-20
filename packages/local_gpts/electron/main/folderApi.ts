@@ -9,7 +9,7 @@ function generateId() {
 }
 
 // types/folderTypes.ts
-const FOLDERS_KEY = "assets/configs/folders.json";
+const FOLDERS_KEY = "assets/configs/folders_list.json";
 
 const Json_File_Manager = new JsonFileManager(FOLDERS_KEY);
 
@@ -46,6 +46,32 @@ export const removeFolder = async (id: string): Promise<Folder[]> => {
     return folders;
 };
 
+export const updateFolder = async (id: string, updatedFolderData: Folder): Promise<Folder[]> => {
+    console.log('Trying to update folder with id', id);
+    let folders = await getFolders();
+    const folderIndex = folders.findIndex(folder => folder.id === id);
+    if (folderIndex === -1) {
+        throw new Error('Folder not found');
+    }
+
+    const currentFolderData = folders[folderIndex];
+
+    // Check if the updated data is different from the current data
+    const isDataChanged = JSON.stringify(currentFolderData) !== JSON.stringify({ ...currentFolderData, ...updatedFolderData });
+    if (!isDataChanged) {
+        console.log('No changes');
+        // No change in the data, skip the file write
+        return folders;
+    }
+
+    // Update the folder details
+    folders[folderIndex] = { ...currentFolderData, ...updatedFolderData };
+
+    await Json_File_Manager.writeJsonFile(folders);
+    console.log('Update succeded!', id);
+    return folders;
+};
+
 
 
 export const Setup_ipc_main__folders = (ipcMain: IpcMain) => {
@@ -65,6 +91,10 @@ export const Setup_ipc_main__folders = (ipcMain: IpcMain) => {
 
     ipcMain.handle('getFolderDetails', async (event, id) => {
         return await getFolderDetails(id);
+    });
+
+    ipcMain.handle('updateFolder', async (event, id, updatedFolderData) => {
+        return await updateFolder(id, updatedFolderData);
     });
 }
 

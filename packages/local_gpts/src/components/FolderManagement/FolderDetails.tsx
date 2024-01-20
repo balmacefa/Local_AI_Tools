@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Folder } from "../../common_types";
 
 // components/FolderManagement/FolderDetails.js
@@ -39,8 +39,22 @@ const FolderDetails: React.FC<FolderDetailsProps> = ({
       ...folder,
       directoryType: event.target.value as "Normal" | "TypeScript",
     });
-    // TODO: update DB
   };
+
+  // Effect to call updateFolder whenever the folder state changes
+  useEffect(() => {
+    const updateFolderDetails = async () => {
+      try {
+        // Call the updateFolder method from your Electron API
+        await window.electronAPI.updateFolder(folder.id, folder);
+      } catch (err) {
+        console.error("Failed to update folder:", err);
+      }
+    };
+
+    // Call the function to update the folder details
+    updateFolderDetails();
+  }, [folder]); // Only re-run the effect if the folder state changes
 
   return (
     <div className="w-full p-4 flex flex-col space-y-6">

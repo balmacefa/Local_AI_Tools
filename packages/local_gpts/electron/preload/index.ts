@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   addFolder: (folder: any) => ipcRenderer.invoke('addFolder', folder),
   removeFolder: (id: any) => ipcRenderer.invoke('removeFolder', id),
   getFolderDetails: (id: any) => ipcRenderer.invoke('getFolderDetails', id),
+  updateFolder: (id: string, folder: any) => ipcRenderer.invoke('updateFolder', id, folder),
 });
 
 
